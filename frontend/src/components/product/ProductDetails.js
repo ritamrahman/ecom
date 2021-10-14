@@ -28,7 +28,7 @@ export default function ProductDetails({ match }) {
 
   return (
     <>
-      {/* <MetaData title={`${product.name}`} /> */}
+      <MetaData title={`${product.name}`} />
       {loading ? (
         <Loader />
       ) : (

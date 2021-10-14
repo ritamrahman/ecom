@@ -11,22 +11,31 @@ import {
 } from "../constant/productConstant";
 
 // Get all products
-export const getProducts = () => async (dispatch) => {
-  try {
-    dispatch({ type: ALL_PRODUCTS_REQUEST });
-    const { data } = await axios.get("/v1/products");
+export const getProducts =
+  (keyword = "", currentPage = 1, price, category) =>
+  async (dispatch) => {
+    try {
+      dispatch({ type: ALL_PRODUCTS_REQUEST });
+      let link = `/v1/products?keyword=${keyword}&page=${currentPage}&price[lte]=${price[1]}&price[gte]=${price[0]}`;
 
-    dispatch({
-      type: ALL_PRODUCTS_SUCCESS,
-      payload: data,
-    });
-  } catch (error) {
-    dispatch({
-      type: ALL_PRODUCTS_FAIL,
-      payload: error.response.data.message,
-    });
-  }
-};
+      // check is user ctg select or not
+      if (category) {
+        link = `/v1/products?keyword=${keyword}&page=${currentPage}&price[lte]=${price[1]}&price[gte]=${price[0]}&category=${category}`;
+      }
+
+      const { data } = await axios.get(link);
+
+      dispatch({
+        type: ALL_PRODUCTS_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: ALL_PRODUCTS_FAIL,
+        payload: error.response.data.message,
+      });
+    }
+  };
 
 // Get product details
 export const getProductDetails = (id) => async (dispatch) => {

@@ -4,10 +4,17 @@ const catchAsyncErrors = require("../middlewares/catchAsyncErrors");
 const sendToken = require("../utils/jwtToken");
 const sendEmail = require("../utils/sendEmail");
 const crypto = require("crypto");
-const { send } = require("process");
+const cloudinary = require("cloudinary");
 
 // Register user => /api/v1/register
 exports.registerUser = catchAsyncErrors(async (req, res, next) => {
+  // cloudinary setup
+  const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
+    folder: "avatar",
+    width: 150,
+    crop: "scale",
+  });
+
   const { name, email, password } = req.body;
 
   const user = await User.create({
@@ -15,8 +22,8 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
     email,
     password,
     avatar: {
-      public_id: "user/money-heist-season-4-professor_2_vh5tf2",
-      url: "https://res.cloudinary.com/dj2yaang5/image/upload/v1632317704/user/money-heist-season-4-professor_2_vh5tf2.jpg",
+      public_id: result.public_id, //cloudinary public_id
+      url: result.secure_url, //cloudinary url
     },
   });
 

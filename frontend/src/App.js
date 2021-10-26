@@ -9,6 +9,8 @@ import Login from "./components/user/Login";
 import Register from "./components/user/Register";
 import { loadUser } from "./actions/userAction";
 import store from "./store";
+import Profile from "./components/user/Profile";
+import ProtectedRoute from "./components/route/ProtectedRoute";
 
 function App() {
   // load currently logged in user on page load.
@@ -21,11 +23,12 @@ function App() {
       <Router>
         <Header />
         <div className="container container-fluid">
-          <Route exact path="/" component={Home} />
+          <Route path="/" component={Home} exact />
           <Route path="/search/:keyword" component={Home} />
           <Route exact path="/product/:id" component={ProductDetails} />
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
+          <ProtectedRoute path="/me" component={Profile} exact />
         </div>
         <Footer />
       </Router>

@@ -11,6 +11,7 @@ import { loadUser } from "./actions/userAction";
 import store from "./store";
 import Profile from "./components/user/Profile";
 import ProtectedRoute from "./components/route/ProtectedRoute";
+import UpdateProfile from "./components/user/UpdateProfile";
 
 function App() {
   // load currently logged in user on page load.
@@ -29,6 +30,7 @@ function App() {
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
           <ProtectedRoute path="/me" component={Profile} exact />
+          <ProtectedRoute path="/me/update" component={UpdateProfile} exact />
         </div>
         <Footer />
       </Router>

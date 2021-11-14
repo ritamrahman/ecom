@@ -6,7 +6,7 @@ import MetaData from "../layouts/MetaData";
 import { useDispatch, useSelector } from "react-redux";
 import { addItemToCart, removeItemFromCart } from "../../actions/cartActions";
 
-export default function Cart() {
+export default function Cart({ history }) {
   const dispatch = useDispatch();
   const { cartItems } = useSelector((state) => state.cart);
 
@@ -31,6 +31,11 @@ export default function Cart() {
   const removeItemHandler = (id) => {
     console.log("remove");
     dispatch(removeItemFromCart(id));
+  };
+
+  // checkoutHandler
+  const checkoutHandler = () => {
+    history.push("login?reducer=shipping");
   };
 
   return (
@@ -149,7 +154,11 @@ export default function Cart() {
                 </p>
 
                 <hr />
-                <button id="checkout_btn" className="btn btn-primary btn-block">
+                <button
+                  id="checkout_btn"
+                  className="btn btn-primary btn-block"
+                  onClick={checkoutHandler}
+                >
                   Check out
                 </button>
               </div>

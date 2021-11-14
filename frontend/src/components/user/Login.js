@@ -7,7 +7,7 @@ import Loader from "../layouts/Loader";
 import MetaData from "../layouts/MetaData";
 import { login, clearErrors } from "../../actions/userAction";
 
-export default function Login({ history }) {
+export default function Login({ history, location }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -18,9 +18,11 @@ export default function Login({ history }) {
     (state) => state.auth
   );
 
+  const redirect = location.search ? location.search.split("=")[1] : "/";
+
   useEffect(() => {
     if (isAuthenticated) {
-      history.push("/");
+      history.push(redirect);
     }
 
     if (error) {

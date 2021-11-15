@@ -29,6 +29,7 @@ import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import Payment from "./components/cart/Payment";
 import { useSelector } from "react-redux";
+import OrderSuccess from "./components/cart/OrderSuccess";
 
 function App() {
   const [stripeApiKey, setStripeApiKey] = useState("");
@@ -67,11 +68,8 @@ function App() {
           <ProtectedRoute path="/me/update" component={UpdateProfile} exact />
           <ProtectedRoute path="/shipping" component={Shipping} />
           <ProtectedRoute path="/order/confirm" component={ConfirmOrder} />
-          <ProtectedRoute
-            path="/password/update"
-            component={UpdatePassword}
-            exact
-          />
+          <ProtectedRoute path="/success" component={OrderSuccess} />
+          <ProtectedRoute path="/password/update" component={UpdatePassword} exact />
           {/* payment */}
           {stripeApiKey && (
             <Elements stripe={loadStripe(stripeApiKey)}>

@@ -17,9 +17,7 @@ const { isAuthenticatedUser, authorizeRoles } = require("../middlewares/auth");
 // define all routes
 
 // ===> Admin
-router
-  .route("/admin/orders")
-  .get(isAuthenticatedUser, authorizeRoles("admin"), allOrders); // create new order
+router.route("/admin/orders").get(isAuthenticatedUser, authorizeRoles("admin"), allOrders); // create new order
 router
   .route("/admin/order/:id")
   .put(isAuthenticatedUser, authorizeRoles("admin"), updateOrder) // update order

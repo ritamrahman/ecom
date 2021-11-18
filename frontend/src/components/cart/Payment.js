@@ -79,9 +79,6 @@ const Payment = ({ history }) => {
 
       const clientSecret = res.data.client_secret;
 
-      console.log("res is:", res);
-      console.log("clint secret is:", clientSecret);
-
       if (!stripe || !elements) {
         return;
       }
@@ -129,6 +126,7 @@ const Payment = ({ history }) => {
       <div className="row wrapper">
         <div className="col-10 col-lg-5">
           <form className="shadow-lg" onSubmit={submitHandler}>
+            <p>4000 0027 6000 3184</p>
             <h1 className="mb-4">Card Info</h1>
             <div className="form-group">
               <label htmlFor="card_num_field">Card Number</label>

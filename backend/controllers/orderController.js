@@ -5,15 +5,8 @@ const catchAsyncErrors = require("../middlewares/catchAsyncErrors");
 
 // Create a new Order => /api/v1/order/new
 exports.newOrder = catchAsyncErrors(async (req, res, next) => {
-  const {
-    orderItems,
-    shippingInfo,
-    itemsPrice,
-    taxPrice,
-    shippingPrice,
-    totalPrice,
-    paymentInfo,
-  } = req.body;
+  const { orderItems, shippingInfo, itemsPrice, taxPrice, shippingPrice, totalPrice, paymentInfo } =
+    req.body;
 
   const order = await Order.create({
     orderItems,
@@ -35,12 +28,8 @@ exports.newOrder = catchAsyncErrors(async (req, res, next) => {
 
 // Get single Order => /api/v1/order/:id
 exports.getSingleOrder = catchAsyncErrors(async (req, res, next) => {
-  const order = await Order.findById(req.params.id).populate(
-    "user",
-    "name email"
-  );
+  const order = await Order.findById(req.params.id).populate("user", "name email");
 
-  // !order && next(new ErrorHandler("No Order found"));
   if (!order) {
     return next(new ErrorHandler("No Order found", 404));
   }
@@ -138,12 +127,7 @@ exports.deleteOrder = catchAsyncErrors(async (req, res, next) => {
 
   // check this order deliver or not
   if (order.orderStatus === "Delivered") {
-    return next(
-      new ErrorHandler(
-        "This Order is already delivered You can not delete it",
-        404
-      )
-    );
+    return next(new ErrorHandler("This Order is already delivered You can not delete it", 404));
   }
 
   await order.remove();

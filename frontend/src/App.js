@@ -31,6 +31,7 @@ import Payment from "./components/cart/Payment";
 import { useSelector } from "react-redux";
 import OrderSuccess from "./components/cart/OrderSuccess";
 import ListOrders from "./components/order/ListOrders";
+import OrderDetails from "./components/order/OrderDetails";
 
 function App() {
   const [stripeApiKey, setStripeApiKey] = useState("");
@@ -70,7 +71,8 @@ function App() {
           <ProtectedRoute path="/shipping" component={Shipping} />
           <ProtectedRoute path="/order/confirm" component={ConfirmOrder} />
           <ProtectedRoute path="/success" component={OrderSuccess} />
-          <ProtectedRoute path="/orders/me" component={ListOrders} />
+          <ProtectedRoute path="/orders/me" component={ListOrders} exact />
+          <ProtectedRoute path="/order/:id" component={OrderDetails} exact />
           <ProtectedRoute path="/password/update" component={UpdatePassword} exact />
           {/* payment */}
           {stripeApiKey && (

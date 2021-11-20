@@ -49,7 +49,7 @@ export default function Header() {
           {user ? (
             <div className="ml-4 dropdown d-inline">
               <Link
-                to=""
+                to="#"
                 className="btn dropdown-toggle text-white mr-4"
                 type="button"
                 id="dropDownMenuButton"
@@ -67,10 +67,7 @@ export default function Header() {
                 <span>{user && user.name}</span>
               </Link>
 
-              <div
-                className="dropdown-menu"
-                aria-labelledby="dropDownMenuButton"
-              >
+              <div className="dropdown-menu" aria-labelledby="dropDownMenuButton">
                 {user && user.role === "admin" && (
                   <Link className="dropdown-item" to="/dashboard">
                     Dashboard
@@ -82,11 +79,7 @@ export default function Header() {
                 <Link className="dropdown-item" to="/me">
                   Profile
                 </Link>
-                <Link
-                  className="dropdown-item text-danger"
-                  to="/"
-                  onClick={logoutHandler}
-                >
+                <Link className="dropdown-item text-danger" to="/" onClick={logoutHandler}>
                   Logout
                 </Link>
               </div>

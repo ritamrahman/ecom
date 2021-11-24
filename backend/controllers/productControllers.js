@@ -107,9 +107,7 @@ exports.createProductReview = catchAsyncErrors(async (req, res, next) => {
 
   const product = await Product.findById(productId);
 
-  const isReviewed = product.reviews.find(
-    (r) => r.user.toString() === req.user._id.toString()
-  );
+  const isReviewed = product.reviews.find((r) => r.user.toString() === req.user._id.toString());
 
   if (isReviewed) {
     product.reviews.forEach((review) => {
@@ -122,8 +120,7 @@ exports.createProductReview = catchAsyncErrors(async (req, res, next) => {
   }
 
   product.ratings =
-    product.reviews.reduce((acc, item) => item.rating + acc, 0) /
-    product.reviews.length;
+    product.reviews.reduce((acc, item) => item.rating + acc, 0) / product.reviews.length;
 
   await product.save({ validateBeforeSave: false });
 
@@ -154,9 +151,7 @@ exports.deleteProductReviews = catchAsyncErrors(async (req, res, next) => {
 
   const numOfReviews = reviews.length;
 
-  const ratings =
-    product.reviews.reduce((acc, item) => item.rating + acc, 0) /
-    reviews.length;
+  const ratings = product.reviews.reduce((acc, item) => item.rating + acc, 0) / reviews.length;
 
   await Product.findByIdAndUpdate(
     req.query.productId,
@@ -175,5 +170,16 @@ exports.deleteProductReviews = catchAsyncErrors(async (req, res, next) => {
   res.status(200).json({
     success: true,
     message: "review delete successfully!",
+  });
+});
+
+// ==> ADMIN API
+// get all Products (Admin) => /api/v1/admin/products
+exports.getAminProducts = catchAsyncErrors(async (req, res, next) => {
+  const products = await Product.find();
+
+  res.status(200).json({
+    success: true,
+    products,
   });
 });

@@ -32,6 +32,8 @@ import { useSelector } from "react-redux";
 import OrderSuccess from "./components/cart/OrderSuccess";
 import ListOrders from "./components/order/ListOrders";
 import OrderDetails from "./components/order/OrderDetails";
+import Dashboard from "./components/admin/Dashboard";
+import ProductsList from "./components/admin/ProductsList";
 
 function App() {
   const [stripeApiKey, setStripeApiKey] = useState("");
@@ -59,6 +61,7 @@ function App() {
           <Route path="/" component={Home} exact />
           <Route path="/search/:keyword" component={Home} />
           <Route exact path="/product/:id" component={ProductDetails} />
+          {/* Auth Route */}
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
           <Route path="/password/forgot" component={ForgotPassword} exact />
@@ -81,6 +84,10 @@ function App() {
             </Elements>
           )}
         </div>
+
+        {/* Admin Routes */}
+        <ProtectedRoute path="/dashboard" isAdmin={true} component={Dashboard} exact />
+        <ProtectedRoute path="/admin/products" isAdmin={true} component={ProductsList} exact />
         <Footer />
       </Router>
     </>

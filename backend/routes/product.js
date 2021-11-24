@@ -4,6 +4,7 @@ const router = express.Router();
 // import all controller function
 const {
   getProducts,
+  getAminProducts,
   newProduct,
   getSingleProduct,
   updateProduct,
@@ -27,9 +28,8 @@ router
   .delete(isAuthenticatedUser, deleteProductReviews); // delete product reviews
 
 //===> ADMIN ROUTE
-router
-  .route("/admin/products/new")
-  .post(isAuthenticatedUser, authorizeRoles("admin"), newProduct); // create new product
+router.route("/admin/products").get(getAminProducts); // display all products
+router.route("/admin/products/new").post(isAuthenticatedUser, authorizeRoles("admin"), newProduct); // create new product
 router
   .route("/admin/product/:id")
   .put(isAuthenticatedUser, authorizeRoles("admin"), updateProduct) // update single product

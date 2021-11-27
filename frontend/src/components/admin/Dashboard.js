@@ -8,6 +8,8 @@ import Sidebar from "./Sidebar";
 import { useDispatch, useSelector } from "react-redux";
 
 function Dashboard() {
+  const { productsCount } = useSelector((state) => state.products);
+
   return (
     <div className="row">
       <div className="col-12 col-md-2">
@@ -34,7 +36,7 @@ function Dashboard() {
               <div className="card-body">
                 <div className="text-center card-font-size">
                   Products
-                  <br /> <b>56</b>
+                  <br /> <b>{productsCount}</b>
                 </div>
               </div>
               <Link className="card-footer text-white clearfix small z-1" to="/admin/products">

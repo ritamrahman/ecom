@@ -8,14 +8,19 @@ import Sidebar from "./Sidebar";
 
 import { useAlert } from "react-alert";
 import { useDispatch, useSelector } from "react-redux";
-import { getAdminProducts, clearErrors } from "../../actions/productAction";
+import { getAdminProducts, clearErrors, deleteProduct } from "../../actions/productAction";
+import { DELETE_PRODUCT_RESET } from "../../constant/productConstant";
 
 const ProductsList = ({ history }) => {
   const alert = useAlert();
   const dispatch = useDispatch();
 
   const { loading, error, products } = useSelector((state) => state.products);
-  //   const { error: deleteError, isDeleted } = useSelector((state) => state.product);
+  const {
+    loading: deleteLoading,
+    error: deleteError,
+    isDeleted,
+  } = useSelector((state) => state.product);
 
   useEffect(() => {
     dispatch(getAdminProducts());
@@ -25,17 +30,17 @@ const ProductsList = ({ history }) => {
       dispatch(clearErrors());
     }
 
-    // if (deleteError) {
-    //   alert.error(deleteError);
-    //   dispatch(clearErrors());
-    // }
+    if (deleteError) {
+      alert.error(deleteError);
+      dispatch(clearErrors());
+    }
 
-    // if (isDeleted) {
-    //   alert.success("Product deleted successfully");
-    //   history.push("/admin/products");
-    //   dispatch({ type: DELETE_PRODUCT_RESET });
-    // }
-  }, [dispatch, alert, error, history]);
+    if (isDeleted) {
+      history.push("/admin/products");
+      alert.success("Product deleted successfully");
+      dispatch({ type: DELETE_PRODUCT_RESET });
+    }
+  }, [dispatch, alert, error, isDeleted, deleteError, history]);
 
   const setProducts = () => {
     const data = {
@@ -81,7 +86,7 @@ const ProductsList = ({ history }) => {
             </Link>
             <button
               className="btn btn-danger py-1 px-2 ml-2"
-              //   onClick={() => deleteProductHandler(product._id)}
+              onClick={() => deleteProductHandler(product._id)}
             >
               <i className="fa fa-trash"></i>
             </button>
@@ -93,9 +98,9 @@ const ProductsList = ({ history }) => {
     return data;
   };
 
-  //   const deleteProductHandler = (id) => {
-  //     dispatch(deleteProduct(id));
-  //   };
+  const deleteProductHandler = (id) => {
+    dispatch(deleteProduct(id));
+  };
 
   return (
     <Fragment>
@@ -109,7 +114,7 @@ const ProductsList = ({ history }) => {
           <Fragment>
             <h1 className="my-5">All Products</h1>
 
-            {loading ? (
+            {loading || deleteLoading ? (
               <Loader />
             ) : (
               <MDBDataTable data={setProducts()} className="px-3" bordered striped hover />

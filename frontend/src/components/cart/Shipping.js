@@ -24,7 +24,8 @@ const Shipping = ({ history }) => {
     e.preventDefault();
 
     dispatch(saveShippingInfo({ address, city, phoneNo, postalCode, country }));
-    history.push("/order/confirm");
+    // history.push("/order/confirm");
+    history.push("/payment");
   };
 
   return (
@@ -102,11 +103,7 @@ const Shipping = ({ history }) => {
               </select>
             </div>
 
-            <button
-              id="shipping_btn"
-              type="submit"
-              className="btn btn-block py-3"
-            >
+            <button id="shipping_btn" type="submit" className="btn btn-block py-3">
               CONTINUE
             </button>
           </form>

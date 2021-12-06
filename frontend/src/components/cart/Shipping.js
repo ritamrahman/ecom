@@ -24,8 +24,8 @@ const Shipping = ({ history }) => {
     e.preventDefault();
 
     dispatch(saveShippingInfo({ address, city, phoneNo, postalCode, country }));
-    // history.push("/order/confirm");
-    history.push("/payment");
+    history.push("/confirm");
+    // history.push("/payment");
   };
 
   return (

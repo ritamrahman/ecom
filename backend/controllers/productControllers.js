@@ -42,10 +42,7 @@ exports.getProducts = catchAsyncErrors(async (req, res, next) => {
   const resPerPage = 4;
   const productsCount = await Product.countDocuments();
 
-  const apiFeatures = new ApiFeatures(Product.find(), req.query)
-    .search()
-    .filter()
-    .pagination(resPerPage);
+  const apiFeatures = new ApiFeatures(Product.find(), req.query).search().filter().pagination(resPerPage);
 
   const products = await apiFeatures.query;
   // let products = await apiFeatures.query;
@@ -83,6 +80,36 @@ exports.updateProduct = catchAsyncErrors(async (req, res, next) => {
 
   if (!product) {
     return next(new ErrorHandler("Product not found", 404));
+  }
+
+  // Check and delete old image
+  let images = [];
+  if (typeof req.body.images === "string") {
+    images.push(req.body.images);
+  } else {
+    images = req.body.images;
+  }
+
+  if (images !== undefined) {
+    // Deleting images associated with the product
+    for (let i = 0; i < product.images.length; i++) {
+      const result = await cloudinary.v2.uploader.destroy(product.images[i].public_id);
+    }
+
+    let imagesLinks = [];
+
+    for (let i = 0; i < images.length; i++) {
+      const result = await cloudinary.v2.uploader.upload(images[i], {
+        folder: "products",
+      });
+
+      imagesLinks.push({
+        public_id: result.public_id,
+        url: result.secure_url,
+      });
+    }
+
+    req.body.images = imagesLinks;
   }
 
   // product update function
@@ -146,8 +173,7 @@ exports.createProductReview = catchAsyncErrors(async (req, res, next) => {
     product.numOfReviews = product.reviews.length;
   }
 
-  product.ratings =
-    product.reviews.reduce((acc, item) => item.rating + acc, 0) / product.reviews.length;
+  product.ratings = product.reviews.reduce((acc, item) => item.rating + acc, 0) / product.reviews.length;
 
   await product.save({ validateBeforeSave: false });
 
@@ -172,9 +198,7 @@ exports.getProductReviews = catchAsyncErrors(async (req, res, next) => {
 exports.deleteProductReviews = catchAsyncErrors(async (req, res, next) => {
   const product = await Product.findById(req.query.productId);
 
-  const reviews = product.reviews.filter(
-    (review) => review._id.toString() !== req.query.id.toString()
-  );
+  const reviews = product.reviews.filter((review) => review._id.toString() !== req.query.id.toString());
 
   const numOfReviews = reviews.length;
 

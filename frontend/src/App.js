@@ -35,6 +35,7 @@ import OrderDetails from "./components/order/OrderDetails";
 import Dashboard from "./components/admin/Dashboard";
 import ProductsList from "./components/admin/ProductsList";
 import NewProduct from "./components/admin/NewProduct";
+import UpdateProduct from "./components/admin/UpdateProduct";
 
 function App() {
   const [stripeApiKey, setStripeApiKey] = useState("");
@@ -61,7 +62,7 @@ function App() {
           {/* Public Route */}
           <Route path="/" component={Home} exact />
           <Route path="/search/:keyword" component={Home} />
-          <Route exact path="/product/:id" component={ProductDetails} />
+          <Route exact path="/product/:id" component={ProductDetails} exact />
           {/* Auth Route */}
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
@@ -73,7 +74,7 @@ function App() {
           <ProtectedRoute path="/me" component={Profile} exact />
           <ProtectedRoute path="/me/update" component={UpdateProfile} exact />
           <ProtectedRoute path="/shipping" component={Shipping} />
-          <ProtectedRoute path="/order/confirm" component={ConfirmOrder} />
+          <ProtectedRoute path="/confirm" component={ConfirmOrder} exact />
           <ProtectedRoute path="/success" component={OrderSuccess} />
           <ProtectedRoute path="/orders/me" component={ListOrders} exact />
           <ProtectedRoute path="/order/:id" component={OrderDetails} exact />
@@ -89,7 +90,8 @@ function App() {
         {/* Admin Routes */}
         <ProtectedRoute path="/dashboard" isAdmin={true} component={Dashboard} exact />
         <ProtectedRoute path="/admin/products" isAdmin={true} component={ProductsList} exact />
-        <ProtectedRoute path="/admin/product/create" isAdmin={true} component={NewProduct} exact />
+        <ProtectedRoute path="/admin/product" isAdmin={true} component={NewProduct} exact />
+        <ProtectedRoute path="/admin/product/:id" isAdmin={true} component={UpdateProduct} exact />
         <Footer />
       </Router>
     </>

@@ -10,7 +10,7 @@ import {
 } from "./reducers/productReducer";
 import { authReducer, userReducer, forgotPasswordReducer } from "./reducers/userReducer";
 import { cartReducer } from "./reducers/cartReducer";
-import { newOrderReducer, myOrdersReducer, orderDetailsReducer } from "./reducers/orderReducer";
+import { newOrderReducer, myOrdersReducer, orderDetailsReducer, allOrdersReducer } from "./reducers/orderReducer";
 
 const reducer = combineReducers({
   products: productReducer,
@@ -24,26 +24,19 @@ const reducer = combineReducers({
   newOrder: newOrderReducer,
   myOrders: myOrdersReducer,
   orderDetails: orderDetailsReducer,
+  allOrders: allOrdersReducer,
   newReview: newReviewReducer,
 });
 
 let initialState = {
   cart: {
-    cartItems: localStorage.getItem("cartItems")
-      ? JSON.parse(localStorage.getItem("cartItems"))
-      : [],
-    shippingInfo: localStorage.getItem("ShippingInfo")
-      ? JSON.parse(localStorage.getItem("ShippingInfo"))
-      : {},
+    cartItems: localStorage.getItem("cartItems") ? JSON.parse(localStorage.getItem("cartItems")) : [],
+    shippingInfo: localStorage.getItem("ShippingInfo") ? JSON.parse(localStorage.getItem("ShippingInfo")) : {},
   },
 };
 
 const middleware = [thunk];
 
-const store = createStore(
-  reducer,
-  initialState,
-  composeWithDevTools(applyMiddleware(...middleware))
-);
+const store = createStore(reducer, initialState, composeWithDevTools(applyMiddleware(...middleware)));
 
 export default store;

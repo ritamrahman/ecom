@@ -86,12 +86,15 @@ export const getOrderDetails = (id) => async (dispatch) => {
   }
 };
 
+// Admin
 // Get all orders - ADMIN
 export const allOrders = () => async (dispatch) => {
   try {
     dispatch({ type: ALL_ORDERS_REQUEST });
 
     const { data } = await axios.get(`/v1/admin/orders`);
+
+    console.log(data);
 
     dispatch({
       type: ALL_ORDERS_SUCCESS,

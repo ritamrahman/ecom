@@ -61,9 +61,7 @@ exports.forgotPassword = catchAsyncErrors(async (req, res, next) => {
   const user = await User.findOne({ email: req.body.email });
 
   if (!user) {
-    return next(
-      new ErrorHandler("User not found with this email address", 404)
-    );
+    return next(new ErrorHandler("User not found with this email address", 404));
   }
 
   // Get reset token
@@ -100,10 +98,7 @@ exports.forgotPassword = catchAsyncErrors(async (req, res, next) => {
 // Reset Password => /api/v1/password/reset:token
 exports.resetPassword = catchAsyncErrors(async (req, res, next) => {
   // Hash url token
-  const resetPasswordToken = crypto
-    .createHash("sha256")
-    .update(req.params.token)
-    .digest("hex");
+  const resetPasswordToken = crypto.createHash("sha256").update(req.params.token).digest("hex");
 
   const user = await User.findOne({
     resetPasswordToken,

@@ -153,12 +153,7 @@ export default function ProductDetails({ match }) {
                   -
                 </span>
 
-                <input
-                  type="number"
-                  className="form-control count d-inline"
-                  value={quantity}
-                  readOnly
-                />
+                <input type="number" className="form-control count d-inline" value={quantity} readOnly />
 
                 <span className="btn btn-primary plus" onClick={increaseQty}>
                   +
@@ -168,7 +163,7 @@ export default function ProductDetails({ match }) {
                 type="button"
                 id="cart_btn"
                 className="btn btn-primary d-inline ml-4"
-                disabled={product.stock === 0}
+                disabled={product.stock === 0 || product.stock <= 0}
                 onClick={addToCart}
               >
                 Add to Cart
@@ -232,12 +227,7 @@ export default function ProductDetails({ match }) {
                             Submit Review
                           </h5>
 
-                          <button
-                            type="button"
-                            className="close"
-                            data-dismiss="modal"
-                            aria-label="Close"
-                          >
+                          <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                           </button>
                         </div>

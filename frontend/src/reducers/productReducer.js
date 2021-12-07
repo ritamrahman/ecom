@@ -212,7 +212,8 @@ export const productsReducer = (state = {}, action) => {
         ...state,
         loading: null,
         success: null,
-        isDeleted: null,
+        isDeleted: false,
+        isUpdated: false,
       };
 
     case CLEAR_ERRORS:

@@ -8,14 +8,15 @@ import Sidebar from "./Sidebar";
 
 import { useAlert } from "react-alert";
 import { useDispatch, useSelector } from "react-redux";
-import { allOrders, clearErrors } from "../../actions/orderAction";
-// import { DELETE_PRODUCT_RESET } from "../../constant/orderConstant";
+import { allOrders, deleteOrder, clearErrors } from "../../actions/orderAction";
+import { DELETE_ORDER_RESET } from "../../constant/orderConstant";
 
 const OrdersList = ({ history }) => {
   const alert = useAlert();
   const dispatch = useDispatch();
 
   const { loading, error, orders } = useSelector((state) => state.allOrders);
+  const { loading: deleteLoading, error: deleteError, isDeleted } = useSelector((state) => state.order);
 
   useEffect(() => {
     dispatch(allOrders());
@@ -25,17 +26,18 @@ const OrdersList = ({ history }) => {
       dispatch(clearErrors());
     }
 
-    // if (deleteError) {
-    //   alert.error(deleteError);
-    //   dispatch(clearErrors());
-    // }
+    if (deleteError) {
+      alert.error(deleteError);
+      dispatch(clearErrors());
+      dispatch({ type: DELETE_ORDER_RESET });
+    }
 
-    // if (isDeleted) {
-    //   history.push("/admin/products");
-    //   alert.success("Product deleted successfully");
-    //   dispatch({ type: DELETE_PRODUCT_RESET });
-    // }
-  }, [dispatch, alert, error, history]);
+    if (isDeleted) {
+      history.push("/admin/orders");
+      alert.success("Order deleted successfully");
+      dispatch({ type: DELETE_ORDER_RESET });
+    }
+  }, [dispatch, alert, error, isDeleted, deleteError, history]);
 
   const setOrders = () => {
     const data = {
@@ -84,7 +86,7 @@ const OrdersList = ({ history }) => {
             <Link to={`/admin/order/${order._id}`} className="btn btn-primary py-1 px-2">
               <i className="fa fa-eye"></i>
             </Link>
-            <button className="btn btn-danger py-1 px-2 ml-2">
+            <button className="btn btn-danger py-1 px-2 ml-2" onClick={() => deleteOrderHandler(order._id)}>
               <i className="fa fa-trash"></i>
             </button>
           </Fragment>
@@ -95,9 +97,9 @@ const OrdersList = ({ history }) => {
     return data;
   };
 
-  // const deleteProductHandler = (id) => {
-  //   dispatch(deleteProduct(id));
-  // };
+  const deleteOrderHandler = (id) => {
+    dispatch(deleteOrder(id));
+  };
 
   return (
     <Fragment>
@@ -111,7 +113,11 @@ const OrdersList = ({ history }) => {
           <Fragment>
             <h1 className="my-5">All Orders List</h1>
 
-            {loading ? <Loader /> : <MDBDataTable data={setOrders()} className="px-3" bordered striped hover />}
+            {loading || deleteLoading ? (
+              <Loader />
+            ) : (
+              <MDBDataTable data={setOrders()} className="px-3" bordered striped hover />
+            )}
           </Fragment>
         </div>
       </div>

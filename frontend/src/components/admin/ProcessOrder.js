@@ -12,6 +12,7 @@ import { UPDATE_ORDER_RESET } from "../../constant/orderConstant";
 
 const ProcessOrder = ({ match }) => {
   const [status, setStatus] = useState("");
+  const [stock, setStock] = useState();
 
   const alert = useAlert();
   const dispatch = useDispatch();
@@ -19,6 +20,7 @@ const ProcessOrder = ({ match }) => {
   const { loading, order = {} } = useSelector((state) => state.orderDetails);
   const { shippingInfo, orderItems, paymentInfo, user, totalPrice, orderStatus } = order;
   const { error, isUpdated } = useSelector((state) => state.order);
+  const { products } = useSelector((state) => state.products);
 
   const orderId = match.params.id;
 

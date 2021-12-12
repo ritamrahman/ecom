@@ -108,6 +108,7 @@ export const newReviewReducer = (state = {}, action) => {
 
     case NEW_REVIEW_SUCCESS:
       return {
+        ...state,
         loading: false,
         success: action.payload,
       };
@@ -122,6 +123,7 @@ export const newReviewReducer = (state = {}, action) => {
       return {
         ...state,
         success: false,
+        loading: false,
       };
 
     case CLEAR_ERRORS:

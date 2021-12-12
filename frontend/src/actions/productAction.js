@@ -80,7 +80,7 @@ export const newReview = (reviewData) => async (dispatch) => {
       headers: { "Content-Type": "application/json" },
     };
 
-    const { data } = await axios.post(`/v1/review`, reviewData, config);
+    const { data } = await axios.put(`/v1/review`, reviewData, config);
 
     dispatch({
       type: NEW_REVIEW_SUCCESS,

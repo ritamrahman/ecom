@@ -12,7 +12,6 @@ import { UPDATE_ORDER_RESET } from "../../constant/orderConstant";
 
 const ProcessOrder = ({ match }) => {
   const [status, setStatus] = useState("");
-  const [stock, setStock] = useState();
 
   const alert = useAlert();
   const dispatch = useDispatch();
@@ -20,7 +19,6 @@ const ProcessOrder = ({ match }) => {
   const { loading, order = {} } = useSelector((state) => state.orderDetails);
   const { shippingInfo, orderItems, paymentInfo, user, totalPrice, orderStatus } = order;
   const { error, isUpdated } = useSelector((state) => state.order);
-  const { products } = useSelector((state) => state.products);
 
   const orderId = match.params.id;
 
@@ -39,6 +37,8 @@ const ProcessOrder = ({ match }) => {
   }, [dispatch, alert, error, isUpdated, orderId]);
 
   const updateOrderHandler = (id) => {
+    // Check order stock
+
     const formData = new FormData();
     formData.set("status", status);
 
@@ -131,18 +131,39 @@ const ProcessOrder = ({ match }) => {
                   <hr />
                 </div>
 
-                <div className="col-12 col-lg-3 mt-5">
+                <div
+                  className="col-12 col-lg-3 mt-5"
+                  style={{
+                    display: order.orderStatus && String(order.orderStatus).includes("Delivered") ? "none" : "block",
+                  }}
+                >
                   <h4 className="my-4">Status</h4>
 
                   <div className="form-group">
                     <select
                       className="form-control"
                       name="status"
-                      value={status}
+                      value={order.orderStatus}
                       onChange={(e) => setStatus(e.target.value)}
                     >
-                      <option value="Processing">Processing</option>
-                      <option value="Shipped">Shipped</option>
+                      <option
+                        value="Processing"
+                        style={{
+                          display:
+                            order.orderStatus && String(order.orderStatus).includes("Shipped") ? "none" : "block",
+                        }}
+                      >
+                        Processing
+                      </option>
+                      <option
+                        value="Shipped"
+                        style={{
+                          display:
+                            order.orderStatus && String(order.orderStatus).includes("Delivered") ? "none" : "block",
+                        }}
+                      >
+                        Shipped
+                      </option>
                       <option value="Delivered">Delivered</option>
                     </select>
                   </div>

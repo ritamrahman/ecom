@@ -3,6 +3,7 @@ import { Carousel } from "react-bootstrap";
 
 import Loader from "../layouts/Loader";
 import MetaData from "../layouts/MetaData";
+import ListReviews from "../review/ListReviews";
 
 import { useAlert } from "react-alert";
 import { useDispatch, useSelector } from "react-redux";
@@ -199,10 +200,6 @@ export default function ProductDetails({ match }) {
                   >
                     Submit Your Review
                   </button>
-
-                  <div className="alert alert-danger mt-5" type="alert">
-                    Review System Currently Under Working
-                  </div>
                 </>
               ) : (
                 <div className="alert alert-danger mt-5" type="alert">
@@ -274,6 +271,8 @@ export default function ProductDetails({ match }) {
               </div>
             </div>
           </div>
+          {/* Reviews Section */}
+          {product.reviews && product.reviews.length > 0 && <ListReviews reviews={product.reviews} />}
         </>
       )}
     </>

@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import MetaData from "../layouts/MetaData";
@@ -7,6 +7,7 @@ import Loader from "../layouts/Loader";
 import { useAlert } from "react-alert";
 import { useDispatch, useSelector } from "react-redux";
 import { getOrderDetails, clearErrors } from "../../actions/orderAction";
+import { getProductDetails } from "../../actions/productAction";
 
 const OrderDetails = ({ match }) => {
   const alert = useAlert();
@@ -73,9 +74,7 @@ const OrderDetails = ({ match }) => {
                   <h4 className="my-4">Order Status:</h4>
                   <p
                     className={
-                      order.orderStatus && String(order.orderStatus).includes("Delivered")
-                        ? "greenColor"
-                        : "redColor"
+                      order.orderStatus && String(order.orderStatus).includes("Delivered") ? "greenColor" : "redColor"
                     }
                   >
                     <b>{orderStatus}</b>

@@ -105,6 +105,40 @@ export const authReducer = (state = { user: {} }, action) => {
   }
 };
 
+// Get All User Reducer
+export const allUserReducer = (state = { users: [] }, action) => {
+  switch (action.type) {
+    case ALL_USERS_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+
+    case ALL_USERS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        users: action.payload,
+      };
+
+    case ALL_USERS_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
 // User Reducer
 export const userReducer = (state = {}, action) => {
   switch (action.type) {
@@ -194,6 +228,40 @@ export const forgotPasswordReducer = (state = {}, action) => {
 
     case FORGOT_PASSWORD_FAIL:
     case NEW_PASSWORD_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
+// Get User Details reducer
+export const userDetailsReducer = (state = { user: {} }, action) => {
+  switch (action.type) {
+    case USER_DETAILS_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+
+    case USER_DETAILS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        user: action.payload,
+      };
+
+    case USER_DETAILS_FAIL:
       return {
         ...state,
         loading: false,

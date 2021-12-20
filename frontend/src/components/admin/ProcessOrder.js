@@ -8,7 +8,6 @@ import Sidebar from "./Sidebar";
 import { useAlert } from "react-alert";
 import { useDispatch, useSelector } from "react-redux";
 import { getOrderDetails, updateOrder, clearErrors } from "../../actions/orderAction";
-// import { getProductDetails } from "../../actions/productAction";
 import { UPDATE_ORDER_RESET } from "../../constant/orderConstant";
 
 const ProcessOrder = ({ match }) => {
@@ -20,40 +19,11 @@ const ProcessOrder = ({ match }) => {
   const { loading, order = {} } = useSelector((state) => state.orderDetails);
   const { shippingInfo, orderItems, paymentInfo, user, totalPrice, orderStatus } = order;
   const { error, isUpdated } = useSelector((state) => state.order);
-  // const { product } = useSelector((state) => state.productDetails);
 
   const orderId = match.params.id;
 
-  // let outOfStockProduct = 0;
-
-  // const [orderProduct, setOrderProduct] = useState();
-
-  // Check order  stock
-  // const checkOrderItemStock = () => {
-  //   //   let i = 0;
-  //   //   const orderItemsLength = orderItems[i];
-
-  //   //   for (i; i >= orderItemsLength; i++) {
-  //   //     const productId = orderItemsLength.product;
-  //   //     const orderItem = orderItemsLength;
-  //   //     setOrderProduct(dispatch(getProductDetails(productId)));
-
-  //   //     if (orderProduct.stock < orderItem.quantity) {
-  //   //       outOfStockProduct++;
-  //   //     }
-  //   //     console.log("productId", productId);
-  //   //     console.log("orderItem", orderItem);
-  //   //   }
-  //   orderItems.forEach((orderItem) => {
-  //     dispatch(getProductDetails(orderItem.product));
-
-  //     console.log(product.stock);
-  //   });
-  // };
-
   useEffect(() => {
     dispatch(getOrderDetails(orderId));
-    // checkOrderItemStock();
 
     if (error) {
       alert.error(error);
@@ -67,8 +37,6 @@ const ProcessOrder = ({ match }) => {
   }, [dispatch, alert, error, isUpdated, orderId]);
 
   const updateOrderHandler = (id) => {
-    // Check order stock
-
     const formData = new FormData();
     formData.set("status", status);
 
@@ -139,11 +107,7 @@ const ProcessOrder = ({ match }) => {
                   <div className="cart-item my-1">
                     {orderItems &&
                       orderItems.map((item) => (
-                        <div
-                          key={item.product}
-                          className="row my-5"
-                          // style={{ border: outOfStockProduct > 0 ? "1px solid red" : "none" }}
-                        >
+                        <div key={item.product} className="row my-5">
                           <div className="col-4 col-lg-2">
                             <img src={item.image} alt={item.name} height="45" width="65" />
                           </div>

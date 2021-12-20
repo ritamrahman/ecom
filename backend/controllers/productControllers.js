@@ -91,11 +91,13 @@ exports.createProductReview = catchAsyncErrors(async (req, res, next) => {
 
   if (isReviewed) {
     product.reviews.forEach((review) => {
-      review.comment = comment;
-      review.rating = rating;
+      if (review.user.toString() === req.user._id.toString()) {
+        review.comment = comment;
+        review.rating = rating;
+      }
     });
   } else {
-    product.reviews.push(...isReviewed, review);
+    product.reviews.push(review);
     product.numOfReviews = product.reviews.length;
   }
 
@@ -105,7 +107,6 @@ exports.createProductReview = catchAsyncErrors(async (req, res, next) => {
 
   res.status(200).json({
     success: true,
-    message: "Product review successfully!",
   });
 });
 
